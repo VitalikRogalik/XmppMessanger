@@ -2,6 +2,7 @@ package com.example.xmppmessenger.data.xmpp
 
 import com.example.xmppmessenger.FromToObject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.jivesoftware.smack.ConnectionConfiguration
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
@@ -22,15 +23,9 @@ class SmackConnectionManager {
             MessagesManager.init(it)
         }
 
-        /*val connectionResult = connectAndLogin(connection)
-
-        this@SmackConnectionManager.connection = if (connectionResult.isSuccess) {
-            connection.also {
-                MessagesManager.init(it)
-            }
-        } else {
-            null
-        }*/
+        // add delay if message sent before connection establish
+        // delay(3000)
+        sendDummyMessage()
     }
 
     private fun buildConfiguration(): XMPPTCPConnectionConfiguration {
@@ -58,4 +53,12 @@ class SmackConnectionManager {
                 login()
             }
         }
+
+    private fun sendDummyMessage() {
+        MessagesManager.sendMessage(
+            // todo replace
+            "toUser",
+            "aaaaaaaaaa"
+        )
+    }
 }
